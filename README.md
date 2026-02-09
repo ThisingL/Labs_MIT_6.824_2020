@@ -1,2 +1,7 @@
 # Labs_MIT_6.824_2020
-Labs of MIT 6.824 Spring 2020
+分布式系统的[学习笔记整理在这里](https://thisingl.github.io/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/)，这个仓库用来整理我在看6.824网课的过程中做完的Labs。
+
+目前进度：
+
+* 2026.2.10 fetch the 6.824 lab software
+
