@@ -1,17 +1,18 @@
 package mr
 
 //
-// RPC definitions.
+// RPC 定义。
 //
-// remember to capitalize all names.
+// 记得所有名称首字母大写。
 //
 
-import "os"
-import "strconv"
+import (
+	"os"
+	"strconv"
+)
 
 //
-// example to show how to declare the arguments
-// and reply for an RPC.
+// 示例：展示如何声明 RPC 的参数和返回值。
 //
 
 type ExampleArgs struct {
@@ -22,13 +23,18 @@ type ExampleReply struct {
 	Y int
 }
 
-// Add your RPC definitions here.
+type Args struct {
+	X int
+}
 
+type Reply struct {
+	Y int
+}
 
-// Cook up a unique-ish UNIX-domain socket name
-// in /var/tmp, for the coordinator.
-// Can't use the current directory since
-// Athena AFS doesn't support UNIX-domain sockets.
+// 在此添加你的 RPC 定义。
+
+// 在 /var/tmp 中为协调器生成一个相对唯一的 UNIX 域套接字名称。
+// 不能使用当前目录，因为 Athena AFS 不支持 UNIX 域套接字。
 func coordinatorSock() string {
 	s := "/var/tmp/824-mr-"
 	s += strconv.Itoa(os.Getuid())

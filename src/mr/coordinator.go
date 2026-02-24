@@ -1,33 +1,35 @@
 package mr
 
-import "log"
-import "net"
-import "os"
-import "net/rpc"
-import "net/http"
+import (
+	"log"
+	"net"
+	"net/http"
+	"net/rpc"
+	"os"
+)
 
-
+// 主节点结构体
 type Coordinator struct {
-	// Your definitions here.
-
+	// 在此处定义你的字段
+	m_status []bool // map 任务状态数组
+	r_status []bool // reduce 任务状态数组
 }
 
-// Your code here -- RPC handlers for the worker to call.
+// 在此处编写供 worker 调用的 RPC 处理函数
 
+// 示例 RPC 处理函数
 //
-// an example RPC handler.
-//
-// the RPC argument and reply types are defined in rpc.go.
-//
+// RPC 的参数和返回类型在 rpc.go 中定义
 func (c *Coordinator) Example(args *ExampleArgs, reply *ExampleReply) error {
 	reply.Y = args.X + 1
 	return nil
 }
 
+func (c *Coordinator) Get_unstarted_task(args *Args, reply *Reply) error {
 
-//
-// start a thread that listens for RPCs from worker.go
-//
+}
+
+// 启动一个线程，监听来自 worker.go 的 RPC 请求
 func (c *Coordinator) server() {
 	rpc.Register(c)
 	rpc.HandleHTTP()
@@ -41,29 +43,26 @@ func (c *Coordinator) server() {
 	go http.Serve(l, nil)
 }
 
-//
-// main/mrcoordinator.go calls Done() periodically to find out
-// if the entire job has finished.
-//
+// main/mrcoordinator.go 会周期性调用 Done() 来判断
+// 整个作业是否已完成
 func (c *Coordinator) Done() bool {
 	ret := false
 
-	// Your code here.
-
+	// 在此处添加你的代码
 
 	return ret
 }
 
-//
-// create a Coordinator.
-// main/mrcoordinator.go calls this function.
-// nReduce is the number of reduce tasks to use.
-//
+// 创建一个 Coordinator
+// main/mrcoordinator.go 会调用此函数
+// nReduce 表示要使用的 reduce 任务数量
 func MakeCoordinator(files []string, nReduce int) *Coordinator {
 	c := Coordinator{}
-
-	// Your code here.
-
+	nMap := len(files)
+	// 启动 nMap + nReduce 个 worker线程监听器
+	for i := 0; i < nMap+nReduce; i++ {
+		go c.server()
+	}
 
 	c.server()
 	return &c
